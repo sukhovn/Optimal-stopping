@@ -1,0 +1,190 @@
+/*
+ *
+ * fonts and type
+ *
+ */
+ 
+p {
+    clear:both;
+}
+
+.very-small {
+    font-size: 50%;
+}
+
+.small {
+    font-size: 75%;
+}
+
+.large {
+    font-size: 125%;
+}
+
+.very-large {
+    font-size: 150%;
+}
+
+
+body { 
+    @font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff; 
+    margin:0px; 
+    padding:0px; 
+    font-size: 18px; 
+    text-align: center;
+}
+
+
+/*
+ *
+ * Form elements like input fields and buttons
+ *
+ */
+
+h1 {
+    margin-bottom: 5%;
+}
+
+
+button {
+    margin-top: 5%;
+    min-width: 100px;
+}
+
+.checkbox {
+    margin-top: 5%;
+}
+
+#instruction_screen {
+    background: white;
+    font-size: 18px; 
+    width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/*
+styling the header above the button area
+*/
+
+#header {
+    background: white;
+    font-size: 28px; 
+    border-bottom: 5px solid #eaeaea;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+    height: 70px;
+}
+
+/*
+styling the footer below the button area
+*/
+
+#footer {
+    background: white;
+    border-top: 5px solid #eaeaea;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+}
+
+#button_section {
+    height: 291px;
+    margin: auto;
+}
+
+#prompt {
+    width: 700px; 
+    margin: auto;
+    }
+
+/*
+styling the bandit area
+*/
+
+#current_button_info {
+    background: white;
+    font-size: 26px; 
+/*    border-bottom: 1px solid #eaeaea;*/
+    padding: 10px 10px 20px 10px;
+    margin: 10px 10px 10px 10px;
+    height: 60px;
+}
+
+#button_area {
+    height: 200px; /* we modify this part depending on how many rows we have*/
+    width: 320px;  
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 14px; 
+}
+
+#after_press_description {
+    width: 750px; 
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 22px; 
+}
+
+#after_press_instruction {
+    width: 750px; 
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 22px; 
+}
+
+.arm_frames {
+    padding: 5px 5px 5px 5px;
+    margin:1px;
+    height:150px;
+    width:150px;
+    /*border: 1px solid #eaeaea;*/
+}
+
+
+.arm_img {
+    width: 150px;
+    height: 150px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.highlighted_arm_img {
+    width: 150px;
+    height: 150px;
+    margin-right: auto;
+    margin-left: auto;
+    -webkit-box-shadow: 0 0 8px #003399;
+    -moz-box-shadow: 0 0 8px #003399;
+    box-shadow: 0 0 18px #003399;
+    cursor:pointer;
+}
+
+
+.arm {
+    background-color: #C02942;
+    border-radius: 2px;
+    text-align: center;
+    font-family: Verdana, Arial, Sans-Serif;
+    color: #FFFFFF;
+    width: 60px;
+    height: 60px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    
+}
+
+.arm_labels {
+    padding-bottom: 5%;
+}
+
+table { 
+    margin: 0 auto 0 auto;
+}
+
+
+
+
+
