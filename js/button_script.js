@@ -143,7 +143,7 @@ var experimental_data = {
 
    getData: function(){
       var outcome = this.data;
-      outcome.unshift({"subjectID": subjectID, "is_time": initial_screen_time});
+      outcome.unshift({"subjectID": subjectID, "is_time": initial_screen_time, "date": Date()});
       let dLen = this.data.length;
       return outcome;
    }
