@@ -134,9 +134,9 @@ var experimental_data = {
    },
 
    new_round: function(){
+      button.new_button();
       button.button_number = 0;
       button.last_button_outcome = 0;
-      button.new_button();
       this.press_number = 0;
       this.round_number++;
    },
