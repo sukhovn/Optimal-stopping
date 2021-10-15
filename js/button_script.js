@@ -83,11 +83,11 @@ var button = (function(){
       this.presses++;
       if(Math.random() < this.current_p){
          core.wins++;
-         last_button_outcome = 1;
+         this.last_button_outcome = 1;
          return 1;
       }
       else{
-         last_button_outcome = 0;
+         this.last_button_outcome = 0;
          return 0;
       }
    };
@@ -194,11 +194,11 @@ function single_button_frame(driver){
 
    $('#current_button_info').attr('style', 'border-bottom: 1px solid #eaeaea');
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button presses:',
+      'html': 'Current button presses: ' + button.presses,
       'id': 'current_presses_info'
    }));
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button wins:',
+      'html': 'Current button wins: ' + button.wins,
       'id': 'current_wins_info'
    }));
 
@@ -215,7 +215,7 @@ function single_button_frame(driver){
       'class': 'arm_labels'
    }));
    $('#button_frame').append($('<img>', {
-      'src': button_folder_path + 'button_0.jpg',
+      'src': button_folder_path + 'button_' + button.current_button + '.jpg',
       'id': 'button',
       'class': 'arm_img' 
    }));
@@ -225,7 +225,6 @@ function single_button_frame(driver){
       $(this).toggleClass('highlighted_arm_img');
    });
 
-   button.update_button();
    driver();
 };
 
@@ -239,11 +238,11 @@ function two_button_frame(driver){
 
    $('#current_button_info').attr('style', 'border-bottom: 1px solid #eaeaea');
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button presses:',
+      'html': 'Current button presses: ' + button.presses,
       'id': 'current_presses_info'
    }));
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button wins:',
+      'html': 'Current button wins: ' + button.wins,
       'id': 'current_wins_info'
    }));
 
@@ -267,7 +266,7 @@ function two_button_frame(driver){
       'class': 'arm_labels'
    }));
    $('#button_frame').append($('<img>', {
-      'src': button_folder_path + 'button_0.jpg',
+      'src': button_folder_path + 'button_' + button.current_button + '.jpg',
       'id': 'button',
       'class': 'arm_img'
    }));
@@ -287,7 +286,6 @@ function two_button_frame(driver){
       $(this).toggleClass('highlighted_arm_img');
    });
 
-   button.update_button();
    driver();
 };
 
@@ -315,19 +313,17 @@ function after_press_message(driver){
       'id': 'current_button_info'
    }));
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button presses:',
+      'html': 'Current button presses: ' + button.presses,
       'id': 'current_presses_info'
    }));
    $('#current_button_info').append($('<div>', {
-      'html': 'Current button wins:',
+      'html': 'Current button wins: ' + button.wins,
       'id': 'current_wins_info'
    }));
    $('#button_section').append($('<div>', {
          'html': after_press_message_instruction,
          'id': 'after_press_instruction'
    }));
-
-   button.update_button();
 
    $(document).keyup(function(event) {
       if(event.which === 13) {
@@ -538,7 +534,7 @@ function experimental_screen(){
 function debrief_screen(){
    // $('body').html(debrief_screen_description);
 
-   //Temporary section that outputs the collected experimental data
+   // //Temporary section that outputs the collected experimental data
    // $('body').append('<p>Time spent on the instruction screen: ' + initial_screen_time + '</p>');
    // var outcome = experimental_data.return_csv();
    // $('body').append('<p>');
@@ -546,6 +542,8 @@ function debrief_screen(){
    //    $('body').append(outcome[i] + '<br>');
    // }
    // $('body').append('</p>');
+
+   // console.log(JSON.stringify(experimental_data.getData()));
 
    $.ajax({
       type: "POST",
@@ -561,8 +559,6 @@ function debrief_screen(){
       alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
       window.location.href = "/";
    })
-
-   // console.log(JSON.stringify(experimental_data.getData()));
 };
 
 /*
