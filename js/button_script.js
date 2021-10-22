@@ -390,7 +390,7 @@ function debrief_screen(){
          'html': 'In the final round you scored ' + counter.wins + ' wins out of ' + number_of_presses + ' presses.'
       }));
       $('#instruction_screen').append($('<p>', {
-         'html': 'Overall you scored ' + counter.total_win + ' wins, this will be converted into ' + Number.parseFloat(price_per_win*counter.wins).toFixed(1) + '$, \
+         'html': 'Overall you scored ' + counter.wins + ' wins, this will be converted into ' + Number.parseFloat(price_per_win*counter.wins).toFixed(1) + '$, \
                      the bonus will be payed to you in 1-2 days time.'
       }))
       $('#instruction_screen').append(ID_message);
