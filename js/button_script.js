@@ -416,7 +416,7 @@ function instruction_screen(){
 };
 
 function post_tutorial(){
-   tutorial_time = tutorial_time - (new Date()).getTime();
+   tutorial_time = (new Date()).getTime() - tutorial_time;
    $('#message_area').html($('<div>', {
       'id': 'tutorial_message'
    }));
