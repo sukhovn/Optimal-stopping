@@ -126,7 +126,7 @@ var ID_message = '<p>Please save or write down the following number: ' + subject
 
 var feedback_instruction = 'If you felt that the task was unclear or you have some ideas how to improve the experiment,\
                               please leave your feedback here. Thank you!';
-var post_feedback_message = 'Your feedback has been recorded. Thank you! You may now close the web page.';
+var post_feedback_message = 'Your feedback has been recorded. Thank you!<br>You may now close the web page.';
 
 var instruction_screen_time; //Records the time the test subject looked at the instruction screen
 var tutorial_time; //Records the time the test subject spent on the tutorial
@@ -428,7 +428,7 @@ function post_instruction_screen(){
             if(quiz_answers[i] == 0){has_errors = 1;}
          }
          if(has_errors == 1){
-            quiz_fail = 1;
+            quiz_fail += 1;
             instruction_prompt(quiz_fail_message, instruction_screen);
          }
          else{
