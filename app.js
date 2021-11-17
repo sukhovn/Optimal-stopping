@@ -3,9 +3,6 @@ var express = require('express'),
     body_parser = require('body-parser'),
     request = require('request');
 
-var is_captcha_passed = 0;
-var is_consent_completed = 0;
-
 var app = express();
 
 app.use(express.static('./'));
@@ -25,22 +22,11 @@ app.get('/', function(req, res) {
 });
 
 app.get('/consent', function(req, res) {
-    if(is_captcha_passed == 0) res.redirect('/');
-    else res.render('consent.html');
+    res.render('consent.html');
 });
 
 app.get('/experiment', function(req, res) {
-    if(is_captcha_passed == 0) res.redirect('/');
-    else if (is_consent_completed == 0) res.redirect('/consent');
-    else res.render('button.html');
-});
-
-// Tracks consent agreement
-app.post('/submit-consent', function(req, res){
-    if(req.body.consent == 'true'){
-        is_consent_completed = 1;
-    }
-    res.end();
+    res.render('button.html');
 });
 
 // Database access
@@ -83,7 +69,6 @@ app.post('/submit-captcha',function(req,res){
         if(body.success !== undefined && !body.success) {
             return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
         }
-        is_captcha_passed = 1;
         res.json({"responseCode" : 0, "responseDesc" : "Success"});
     });
 });
