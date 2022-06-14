@@ -3,7 +3,7 @@
 */
 
 var number_of_presses = 100;
-var p_truncation = 0.9;
+var p_truncation = 0.7;
 var base_pay = 1.8;
 var price_per_win = 0.01;
 var prolificID = 'none';
