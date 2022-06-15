@@ -41,40 +41,42 @@ function debrief_screen(){
       data: JSON.stringify(experimental_data.getData()),
       contentType: "application/json"
    })
-   .done(function() {
-      $('body').html($('<div>', {
-         'id': 'instruction_screen'
-      }));
-      $('#instruction_screen').append(debrief_screen_description);
-      $('#instruction_screen').append($('<p>', {
-         'html': 'Overall you scored ' + counter.wins + ' points, this will be converted into ' + Number.parseFloat(Math.ceil(100*total_pay)/100).toFixed(2) + '$, \
-                     the bonus will be payed to you in 1-2 days time.'
-      }))
-      $('#instruction_screen').append(ID_message);
-      //Requesting feedback
-      feedback_window.feedback_instruction = feedback_instruction;
-      feedback_window.post_feedback_message = post_feedback_message;
-      feedback_window.show(function(){
-         //Saving feedback if it is different from the feedback message
-         if(feedback_window.feedback != feedback_window.feedback_message){
-            $.ajax({
-               type: "POST",
-               url: "/experiment-feedback/" + subjectID,
-               data: JSON.stringify({feedback: feedback_window.feedback}),
-               contentType: "application/json"
-            })
-            .done(function() {
+   .done(increment_type(truncation_type,
+      function() {
+         $('body').html($('<div>', {
+            'id': 'instruction_screen'
+         }));
+         $('#instruction_screen').append(debrief_screen_description);
+         $('#instruction_screen').append($('<p>', {
+            'html': 'Overall you scored ' + counter.wins + ' points, this will be converted into ' + Number.parseFloat(Math.ceil(100*total_pay)/100).toFixed(2) + '$, \
+                        the bonus will be payed to you in 1-2 days time.'
+         }))
+         $('#instruction_screen').append(ID_message);
+         //Requesting feedback
+         feedback_window.feedback_instruction = feedback_instruction;
+         feedback_window.post_feedback_message = post_feedback_message;
+         feedback_window.show(function(){
+            //Saving feedback if it is different from the feedback message
+            if(feedback_window.feedback != feedback_window.feedback_message){
+               $.ajax({
+                  type: "POST",
+                  url: "/experiment-feedback/" + subjectID,
+                  data: JSON.stringify({feedback: feedback_window.feedback}),
+                  contentType: "application/json"
+               })
+               .done(function() {
+                  feedback_window.submission_success();
+               })
+               .fail(function() {
+                  alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
+               })
+            }
+            else{
                feedback_window.submission_success();
-            })
-            .fail(function() {
-               alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
-            })
-         }
-         else{
-            feedback_window.submission_success();
-         }
-      });
-   })
+            }
+         });
+      }
+   ))
    .fail(function() {
       alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
    })
@@ -85,5 +87,10 @@ function debrief_screen(){
 */
 
 function run_experiment(){
-   instruction_screen();
+   get_experiment_type(
+      function(data){
+         truncation_type = data.type;
+         p_truncation = truncation_type_p[data.type];
+      }, request_ID
+   );
 };

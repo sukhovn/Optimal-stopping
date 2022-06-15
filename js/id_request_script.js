@@ -40,7 +40,7 @@ function request_ID(){
 		}
 		else{
 			prolificID = $('#prolific_input').val();
-			run_experiment();
+			instruction_screen();
 		}
 	});
 }

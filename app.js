@@ -29,9 +29,15 @@ app.get('/experiment', function(req, res) {
     res.render('button.html');
 });
 
+var experiment_name = 'full_experiment';
+
 // Database access
-var emptySchema = new mongoose.Schema({}, { strict: false });
-var Entry = mongoose.model('Entry', emptySchema);
+var experimentSchema = new mongoose.Schema({}, {collection: experiment_name, strict: false });
+var Entry = mongoose.model('Entry', experimentSchema);
+
+// Parameters access
+var parametersSchema = new mongoose.Schema({}, {strict: false });
+var Parameter = mongoose.model('Parameter', parametersSchema);
 
 mongoose.connect(process.env.CONNECTION);
 var db = mongoose.connection;
@@ -40,11 +46,53 @@ db.once('open', function callback() {
     console.log('database opened');
 });
 
+// Loads experiment type from parameters
+app.get('/get-parameter', function(req, res){
+    Parameter.findOne({name: experiment_name}, function(err, data){
+        var total_each = data['total_each'];
+        var types_each = []
+        for(const key in data){
+            if(key.substr(0, 4) == 'type'){
+                if(data[key] > total_each) types_each.push(total_each);
+                else types_each.push(data[key]);
+            }
+        }
+
+        var types_remain = 3*total_each;
+        for(let i = 0; i < types_each.length; ++i){types_remain -= types_each[i];}
+
+        if(types_remain == 0){
+            var type = Math.floor(Math.random()*types_each.length)
+            console.log("Running over experiment size, assigning random type " + type);
+            res.json({type: type});
+        }
+        else{
+            var probabilities = [0.0]
+            for(let i = 1; i < types_each.length; ++i){probabilities.push(probabilities[i-1] + (total_each - types_each[i-1])/types_remain);}
+            probabilities.shift();
+
+            var random_val = Math.random();
+            var type = 0;
+            for(; type < types_each.length-1; ++type){
+                if(random_val < probabilities[type]) break;
+            }
+            res.json({type: type});
+        }
+    });
+});
+
+app.post('/increment-type', function(req, res){
+    let update_rule = {};
+    update_rule['type_' + req.body.type] = 1;
+    Parameter.findOneAndUpdate({name: experiment_name}, {$inc : update_rule}).exec();
+    res.end();
+});
+
 // Posts experimental results
 app.post('/experiment-data', function(req, res){
     Entry.create(req.body);    
     res.end();
-})
+});
 
 // Updates experimental feedback
 app.post('/experiment-feedback/:id', function(req, res){
@@ -53,9 +101,9 @@ app.post('/experiment-feedback/:id', function(req, res){
         function(err, docs){
             if(err){console.log(err);}
             else{console.log("Added feedback:", docs);}
-        });   
+        });
     res.end();
-})
+});
 
 // Checks captcha verification result
 app.post('/submit-captcha',function(req,res){

@@ -2,8 +2,11 @@
 *  Here we define main experiment parameters
 */
 
+var truncation_type_p = [0.9, 0.8, 0.7];
+var truncation_type;
+
 var number_of_presses = 100;
-var p_truncation = 0.7;
+var p_truncation = 0.9;
 var base_pay = 1.8;
 var price_per_win = 0.01;
 var prolificID = 'none';
@@ -25,6 +28,34 @@ var tutorial_time; //Records the time the test subject spent on the tutorial
 *  Here goes the main experimental code
 *  Here we define main experimental classes
 */
+
+//This function pulls out experiment type from data base
+function get_experiment_type(action, next_step){
+   $.ajax({
+      type: "GET",
+      url: "/get-parameter",
+      contentType: "application/json",
+      success: action
+   })
+   .done(next_step)
+   .fail(function() {
+      alert("A problem occurred while loading up experiment type. Please contact the researcher for more information.")
+   });
+};
+
+//This function updates the number of experiments performed
+function increment_type(type, next_step){
+   $.ajax({
+      type: "POST",
+      url: "/increment-type",
+      contentType: "application/json",
+      data: JSON.stringify({type: type}),
+   })
+   .done(next_step)
+   .fail(function(){
+      alert("A problem occurred while updating the database. Please contact the researcher for more information.")
+   });
+};
 
 //This object generates button presses outcomes and updates button pictures and counter
 function button_press_message(presses, wins){
@@ -160,7 +191,7 @@ var experimental_data = {
    },
 
    getData: function(){
-      let head_data = {"subjectID": subjectID, "prolificID": prolificID, "inst_time": instruction_screen_time, "tut_time": tutorial_time, "date": Date(), "total_win": counter.wins, "quiz_failed": quiz_fail};
+      let head_data = {"subjectID": subjectID, "prolificID": prolificID, "probability_truncation": p_truncation, "inst_time": instruction_screen_time, "tut_time": tutorial_time, "date": Date(), "total_win": counter.wins, "quiz_failed": quiz_fail};
       let outcome = $.extend({}, head_data,  {"practice_data": experimental_data.practice_data}, {"press_data": experimental_data.main_data}, {"feedback": "none"});
       return outcome;
    }
