@@ -5,7 +5,6 @@ var express = require('express'),
 
 var app = express();
 
-app.use(express.static('./'));
 app.use('/css', express.static('./css'));
 app.use('/js', express.static('./js'));
 app.use('/pictures', express.static('./pictures'));
@@ -17,11 +16,15 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({extended : false}));
 
 // Describes pages paths
-app.get('/', function(req, res) {
-    res.render('index.html');
-});
+// app.get('/', function(req, res) {
+//     res.render('index.html');
+// });
 
-app.get('/consent', function(req, res) {
+// app.get('/consent', function(req, res) {
+//     res.render('consent.html');
+// });
+
+app.get('/', function(req, res) {
     res.render('consent.html');
 });
 

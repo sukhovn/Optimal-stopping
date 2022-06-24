@@ -14,6 +14,7 @@ var post_feedback_message = 'Your feedback has been recorded. Thank you!<br>You 
 */
 
 function debrief_screen(){
+   $('.arm_img').off('click');
    let total_pay = base_pay + price_per_win*counter.wins;
    // $('body').html($('<div>', {
    //    'id': 'instruction_screen'
